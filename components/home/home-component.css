@@ -1,0 +1,68 @@
+@font-face {
+  font-family: Impact;
+  src: url("../../assets/webfonts/impact.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.home {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100px 1fr 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+.home .title {
+  font-family: Impact;
+  line-height: 2em;
+  /* padding-top: 56px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home .title .tap {
+  font-size: 8em;
+  color: red;
+  z-index: 1;
+}
+
+.home .title .the {
+  font-size: 6em;
+  color: white;
+  text-shadow: 0 0 10px black;
+  transform: rotate(-10deg);
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  z-index: 2;
+}
+
+.home .title .black {
+  font-size: 10em;
+  z-index: 1;
+}
+
+.home .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home .content .play {
+  margin-bottom: 24px;
+}
+
+.home .content .best-score {
+  text-align: center;
+}
+
+.home .content .best-score .value {
+  font-size: 6em;
+}
+
+.home .content .best-score .label {
+  font-size: 1.8em;
+}
