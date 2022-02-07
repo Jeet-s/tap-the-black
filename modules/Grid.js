@@ -1,6 +1,6 @@
 import Observable from "./Observable.js";
 
-export default class TapGrid {
+export default class Grid {
   currentBlackCell;
   rightTap;
   wrongTap;

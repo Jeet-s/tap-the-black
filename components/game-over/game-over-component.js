@@ -1,10 +1,10 @@
-import AbstractView from "../abstract-component.js";
-import Game from "../../modules/game.js";
+import BaseComponent from "../base-component.js";
+import Game from "../../modules/Game.js";
 
 const templateUrl = "/components/game-over/game-over-component.html";
 const stylesUrl = "/components/game-over/game-over-component.css";
 
-export default class GameOverComponent extends AbstractView {
+export default class GameOverComponent extends BaseComponent {
   constructor() {
     super(templateUrl, stylesUrl);
   }

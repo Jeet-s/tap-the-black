@@ -1,5 +1,6 @@
 import router from "../router.js";
 import TapGrid from "./Grid.js";
+import Observable from "./Observable.js";
 
 const bestScoreKey = "tap-the-black_best-score";
 
@@ -7,8 +8,10 @@ class Game {
   static instance;
   #score;
   #lives;
-  #tapGrid;
+  #grid;
   #showBlackInterval;
+
+  onReset = new Observable();
 
   constructor() {
     if (!Game.instance) {
@@ -22,15 +25,18 @@ class Game {
     return this.#score;
   }
 
-  start() {
-    this.#score = 0;
-    this.#lives = 3;
-    this.#tapGrid = new TapGrid(3);
+  initialize() {
+    this.#grid = new TapGrid(3);
     let tapGridElement = document.getElementsByClassName("tap-grid")[0];
-    this.#tapGrid.renderGrid(tapGridElement);
+    this.#grid.renderGrid(tapGridElement);
     this.#handleScores();
     this.#handleLives();
     this.#renderLives();
+  }
+
+  start() {
+    this.#score = 0;
+    this.#lives = 3;
     this.#setBlackCellInterval();
   }
 
@@ -41,38 +47,31 @@ class Game {
   #setBlackCellInterval() {
     this.#showBlackInterval && clearInterval(this.#showBlackInterval);
     this.#showBlackInterval = setInterval(() => {
-      this.#tapGrid.showBlackCell();
-    }, 1000);
-  }
-
-  restart() {
-    this.reset();
-    this.#resetLives();
-    setTimeout(() => {
-      this.#setBlackCellInterval();
+      this.#grid.showBlackCell();
     }, 1000);
   }
 
   reset() {
     this.#score = 0;
     this.#lives = 3;
-    console.log("clreared interval");
+    this.#resetLives();
+    this.#resetScores();
     clearInterval(this.#showBlackInterval);
+    this.onReset.emit();
   }
 
   #handleScores() {
     let scoreElement = document.getElementsByClassName("score")[0];
 
-    this.#tapGrid.rightTap.subscribe((res) => {
+    this.#grid.rightTap.subscribe((res) => {
       scoreElement.textContent = ++this.#score + "";
     });
   }
 
   #handleLives() {
-    this.#tapGrid.wrongTap.subscribe(async (_) => {
+    this.#grid.wrongTap.subscribe(async (_) => {
       this.#lives--;
       this.#resetLives();
-      console.log(this.#lives);
       if (this.#lives <= 0) {
         await router.navigate("/game-over");
         this.end();
@@ -91,6 +90,12 @@ class Game {
         lifeElements.item(i).classList.remove("far", "no-life");
       }
     }
+  }
+
+  #resetScores() {
+    let scoreElement = document.getElementsByClassName("score")[0];
+
+    scoreElement.textContent = 0;
   }
 
   #renderLives() {
